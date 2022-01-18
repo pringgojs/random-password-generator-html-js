@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <title>Random Password Generator</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col align-self-center">
+          <div class="card">
+            <div class="card-body">
+              <form
+                class="form-inline"
+                onkeydown="return event.key != 'Enter';"
+              >
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="length-username-password" class=""
+                    >Jumlah user dan password yang akan dibuat
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="length-username-password"
+                    placeholder="misal. 10"
+                    value="53"
+                    required
+                  />
+                </div>
+                <button
+                  type="button"
+                  id="btn-create"
+                  onclick="generate()"
+                  class="btn btn-primary mb-2"
+                >
+                  Buat Sekarang
+                </button>
+              </form>
+
+              <table class="table">
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function getRandomString(length) {
+        var randomChars =
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var result = '';
+        for (var i = 0; i < length; i++) {
+          result += randomChars.charAt(
+            Math.floor(Math.random() * randomChars.length)
+          );
+        }
+        return result;
+      }
+
+      function generate() {
+        $('tbody').html('');
+        var total = $('#length-username-password').val();
+
+        if (total > 200) {
+          alert('Maksimal jumlah yang diizinkan 200');
+          return;
+        }
+        for (let index = 0; index < total; index++) {
+          var username = 'Username: opd_' + getRandomString(5);
+          var password = 'Password: ' + getRandomString(10);
+          var copy = username + ` ` + password;
+          var tr =
+            `<tr><td>` +
+            index +
+            `</td><td>` +
+            username +
+            ` <br>` +
+            password +
+            `</td>
+            <td><input class="form-control" id="copy-` +
+            index +
+            `" type="text" value="` +
+            copy +
+            `"/></td>
+             <td><button onclick="copy(` +
+            index +
+            `)" javascript:void(0) type="button" class="btn btn-primary btn-sm">Copy</button></td>></tr>`;
+          $('tbody').append(tr);
+        }
+      }
+
+      function copy(index) {
+        var copyText = document.getElementById('copy-' + index);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+
+        console.log('copied');
+      }
+    </script>
+  </body>
+</html>
